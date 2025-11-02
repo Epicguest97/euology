@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import CoreBluetooth
 
 /// Abstract transport interface used by ChatViewModel and services.
 /// BLEService implements this protocol; a future Nostr transport can too.
@@ -25,6 +26,8 @@ protocol Transport: AnyObject {
     var myPeerID: PeerID { get }
     var myNickname: String { get }
     func setNickname(_ nickname: String)
+    var bleServiceUUID: CBUUID? { get }
+    func setBLEServiceUUID(_ uuid: CBUUID)
 
     // Lifecycle
     func startServices()
@@ -61,6 +64,9 @@ protocol Transport: AnyObject {
 }
 
 extension Transport {
+    var bleServiceUUID: CBUUID? { nil }
+    func setBLEServiceUUID(_ uuid: CBUUID) {}
+
     func sendVerifyChallenge(to peerID: PeerID, noiseKeyHex: String, nonceA: Data) {}
     func sendVerifyResponse(to peerID: PeerID, noiseKeyHex: String, nonceA: Data) {}
     func sendFileBroadcast(_ packet: BitchatFilePacket, transferId: String) {}

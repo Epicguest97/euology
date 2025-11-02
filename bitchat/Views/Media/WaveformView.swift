@@ -37,7 +37,7 @@ struct WaveformView: View {
                         let binPosition = Double(index) / Double(samples.count)
                         let color: Color
                         if binPosition <= clampedPlayback {
-                            color = Color.green
+                            color = Color.amberAccent
                         } else if let send = clampedSend, binPosition <= send {
                             color = Color.blue
                         } else {

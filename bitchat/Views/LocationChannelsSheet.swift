@@ -15,7 +15,7 @@ struct LocationChannelsSheet: View {
     @State private var customGeohash: String = ""
     @State private var customError: String? = nil
 
-    private var backgroundColor: Color { colorScheme == .dark ? .black : .white }
+    private var backgroundColor: Color { .black }
 
     private enum Strings {
         static let title: LocalizedStringKey = "location_channels.title"
@@ -225,6 +225,11 @@ struct LocationChannelsSheet: View {
                     sectionDivider
                     torToggleSection
                         .padding(.top, 12)
+                    
+                    // Network namespace toggle (BitChat mainnet compatibility)
+                    networkNamespaceToggleSection
+                        .padding(.top, 8)
+                    
                     Button(action: {
                         openSystemLocationSettings()
                     }) {
@@ -254,7 +259,7 @@ struct LocationChannelsSheet: View {
     }
 
     private var dividerColor: Color {
-        colorScheme == .dark ? Color.white.opacity(0.12) : Color.black.opacity(0.08)
+        Color.white.opacity(0.12)
     }
 
     private var customTeleportSection: some View {
@@ -485,15 +490,41 @@ extension LocationChannelsSheet {
                         .foregroundColor(.secondary)
                 }
             }
-            .toggleStyle(IRCToggleStyle(accent: standardGreen, onLabel: Strings.toggleOn, offLabel: Strings.toggleOff))
+            .toggleStyle(IRCToggleStyle(accent: standardLavender, onLabel: Strings.toggleOn, offLabel: Strings.toggleOff))
         }
         .padding(12)
         .background(Color.secondary.opacity(0.12))
         .cornerRadius(8)
     }
 
+    private var networkNamespaceToggleSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Toggle(isOn: Binding(
+                get: { viewModel.connectToBitchatMainnet },
+                set: { viewModel.setConnectToBitchatMainnet($0) }
+            )) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("bitchat mainnet")
+                        .font(.bitchatSystem(size: 12, weight: .semibold, design: .monospaced))
+                        .textCase(.uppercase)
+                        .foregroundColor(.primary)
+                    Text(viewModel.connectToBitchatMainnet ? "on • connected to legacy network" : "off • connect to bitchat servers")
+                        .font(.bitchatSystem(size: 11, design: .monospaced))
+                        .foregroundColor(.secondary)
+                }
+            }
+            .toggleStyle(IRCToggleStyle(accent: standardLavender, onLabel: Strings.toggleOn, offLabel: Strings.toggleOff))
+        }
+        .padding(12)
+        .background(Color.secondary.opacity(0.12))
+        .cornerRadius(8)
+    }
+
+    private var standardLavender: Color {
+        Color(red: 0.71, green: 0.62, blue: 0.85)
+    }
     private var standardGreen: Color {
-        (colorScheme == .dark) ? Color.green : Color(red: 0, green: 0.5, blue: 0)
+        Color(red: 0.71, green: 0.62, blue: 0.85)
     }
     private var standardBlue: Color {
         Color(red: 0.0, green: 0.478, blue: 1.0)

@@ -43,10 +43,10 @@ struct PaymentChipView: View {
     let paymentType: PaymentType
     
     private var fgColor: Color {
-        colorScheme == .dark ? Color.green : Color(red: 0, green: 0.5, blue: 0)
+        Color.amberAccent
     }
     private var bgColor: Color {
-        colorScheme == .dark ? Color.gray.opacity(0.18) : Color.gray.opacity(0.12)
+        Color.gray.opacity(0.18)
     }
     private var border: Color { fgColor.opacity(0.25) }
     

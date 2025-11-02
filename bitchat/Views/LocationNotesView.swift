@@ -19,8 +19,8 @@ struct LocationNotesView: View {
         _manager = StateObject(wrappedValue: LocationNotesManager(geohash: gh))
     }
 
-    private var backgroundColor: Color { colorScheme == .dark ? .black : .white }
-    private var accentGreen: Color { colorScheme == .dark ? .green : Color(red: 0, green: 0.5, blue: 0) }
+    private var backgroundColor: Color { .black }
+    private var accentGreen: Color { Color.amberAccent }
     private var maxDraftLines: Int { dynamicTypeSize.isAccessibilitySize ? 5 : 3 }
 
     private enum Strings {

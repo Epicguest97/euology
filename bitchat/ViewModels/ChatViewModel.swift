@@ -246,6 +246,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     
     @Published var messages: [BitchatMessage] = []
     @Published var currentColorScheme: ColorScheme = .light
+    @Published var connectToBitchatMainnet: Bool = false
     private let maxMessages = TransportConfig.meshTimelineCap // Maximum messages before oldest are removed
     @Published var isConnected = false
     private var recentlySeenPeers: Set<PeerID> = []
@@ -323,6 +324,19 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
             startPrivateChat(with: target)
         }
     }
+
+    @MainActor
+    func setConnectToBitchatMainnet(_ isOn: Bool) {
+        guard connectToBitchatMainnet != isOn else { return }
+        connectToBitchatMainnet = isOn
+        userDefaults.set(isOn, forKey: bleNamespacePreferenceKey)
+
+        let targetUUID = isOn ? BLEService.bitchatMainnetServiceUUID : BLEService.eulogyMainnetServiceUUID
+        meshService.setBLEServiceUUID(targetUUID)
+
+        let namespaceLabel = isOn ? "BitChat mainnet" : "Eulogy mainnet"
+        SecureLogger.info("User selected \(namespaceLabel) namespace", category: .session)
+    }
     
     //
     private var peerIDToPublicKeyFingerprint: [PeerID: String] = [:]
@@ -385,6 +399,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     private let userDefaults = UserDefaults.standard
     private let keychain: KeychainManagerProtocol
     private let nicknameKey = "bitchat.nickname"
+    private let bleNamespacePreferenceKey = "mesh.useLegacyMainnetUUID"
     // Location channel state (macOS supports manual geohash selection)
     @Published private var activeChannel: ChannelID = .mesh
     private var geoSubscriptionID: String? = nil
@@ -568,6 +583,10 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
         loadNickname()
         loadVerifiedFingerprints()
         meshService.delegate = self
+
+    connectToBitchatMainnet = userDefaults.bool(forKey: bleNamespacePreferenceKey)
+    let initialUUID = connectToBitchatMainnet ? BLEService.bitchatMainnetServiceUUID : BLEService.eulogyMainnetServiceUUID
+    meshService.setBLEServiceUUID(initialUUID)
         
         // Log startup info
         
@@ -4161,7 +4180,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
         var result = AttributedString()
         
         let isDark = colorScheme == .dark
-        let primaryColor = isDark ? Color.green : Color(red: 0, green: 0.5, blue: 0)
+        let primaryColor = Color.amberAccent
         
         if message.sender == "system" {
             let content = AttributedString("* \(message.content) *")

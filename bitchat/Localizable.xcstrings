@@ -361,181 +361,203 @@
         }
       }
     },
+    "app_info.about.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Eulogy Project is an initiative of the 000196 Foundation, an independent collective dedicated to preserving open and uncensored communication in the digital age.\n\nWe believe that freedom of speech and information should never depend on the permission of centralized authorities, corporations, or algorithms. This project explores how technology can serve that freedom, not control it.\n\nFeatures:\n\n• Offline Communication - Works without internet using Bluetooth mesh networking, enabling truly resilient peer-to-peer messaging\n\n• End-to-End Encryption - All messages are encrypted with the Noise Protocol, ensuring private communications that cannot be intercepted\n\n• Extended Range - Messages relay through peers, extending your reach far beyond Bluetooth's normal limits\n\n• Favorites System - Mark trusted contacts and get notified when they join your mesh network\n\n• Local Channels - Geohash-based channels let you chat with people in specific geographic locations over decentralized relays\n\n• No Tracking - No servers, no accounts, no data collection. Your identity and communications remain entirely yours"
+          }
+        }
+      }
+    },
+    "app_info.about.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ABOUT THE PROJECT"
+          }
+        }
+      }
+    },
     "app_info.app_name" : {
       "extractionState" : "manual",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "ms" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "ne" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "ta" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "ur" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitchat"
+            "value" : "Eulogy"
           }
         }
       }
@@ -5737,175 +5759,175 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "ms" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "ne" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "ta" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "ur" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sidegroupchat"
+            "value" : "000196 Foundation"
           }
         }
       }
@@ -6264,6 +6286,190 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "警告"
+          }
+        }
+      }
+    },
+    "bitchat mainnet" : {
+      "comment" : "The label for the mainnet toggle in the settings view.",
+      "isCommentAutoGenerated" : true
+    },
+    "Choose an image" : {
+      "comment" : "A label displayed above a button that allows the user to choose an image to send.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اختر صورة"
+          }
+        },
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "একটি ছবি নির্বাচন করুন"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bild auswählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose an image"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige una imagen"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pumili ng larawan"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisir une image"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "בחר תמונה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "एक चित्र चुनें"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pilih gambar"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli un’immagine"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画像を選択"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미지를 선택하세요"
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pilih imej"
+          }
+        },
+        "ne" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "एउटा तस्वीर चयन गर्नुहोस्"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kies een afbeelding"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wybierz obraz"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolher uma imagem"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha uma imagem"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите изображение"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Välj en bild"
+          }
+        },
+        "ta" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ஒரு படத்தைத் தேர்ந்தெடுக்கவும்"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เลือกภาพ"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir görüntü seç"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виберіть зображення"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ایک تصویر منتخب کریں"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chọn một hình ảnh"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择图像"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇圖像"
           }
         }
       }
@@ -23478,6 +23684,185 @@
         }
       }
     },
+    "Images are only available in mesh chats." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الصور متاحة فقط في محادثات الميش."
+          }
+        },
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ছবি শুধু মেশ চ্যাটে উপলব্ধ।"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilder sind nur im Mesh-Chat verfügbar."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Images are only available in mesh chats."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las imágenes solo están disponibles en los chats de mesh."
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ang mga larawan ay available lamang sa mga mesh chat."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les images sont uniquement disponibles dans les discussions mesh."
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "תמונות זמינות רק בצ׳אט של mesh."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "चित्र केवल मेश चैट में ही उपलब्ध हैं।"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gambar hanya tersedia di obrolan mesh."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le immagini sono disponibili solo nelle chat mesh."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画像はメッシュチャットでのみ利用できます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미지는 메쉬 채팅에서만 사용할 수 있습니다."
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imej hanya tersedia dalam sembang mesh."
+          }
+        },
+        "ne" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "तस्बिरहरू केवल मेष च्याटमा मात्र उपलब्ध छन्।"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afbeeldingen zijn alleen beschikbaar in mesh-chats."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obrazy są dostępne tylko na czatach mesh."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As imagens só estão disponíveis nos chats mesh."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As imagens só estão disponíveis nos chats mesh."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изображения доступны только в mesh-чатах."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilder är bara tillgängliga i mesh-chattar."
+          }
+        },
+        "ta" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "படங்கள் மெஷ் உரையாடல்களில் மட்டுமே கிடைக்கும்."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "รูปภาพใช้งานได้เฉพาะในแชต mesh เท่านั้น"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Görseller yalnızca mesh sohbetlerinde kullanılabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зображення доступні лише в mesh-чатах."
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تصاویر صرف میش چیٹس میں دستیاب ہیں۔"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hình ảnh chỉ khả dụng trong các cuộc trò chuyện mesh."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图片仅可在 mesh 聊天中使用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "圖片僅能在 mesh 聊天中使用。"
+          }
+        }
+      }
+    },
     "location_channels.action.open_settings" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -35877,365 +36262,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "語音訊息僅能在 mesh 聊天中使用。"
-          }
-        }
-      }
-    },
-    "Images are only available in mesh chats." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الصور متاحة فقط في محادثات الميش."
-          }
-        },
-        "bn" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ছবি শুধু মেশ চ্যাটে উপলব্ধ।"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bilder sind nur im Mesh-Chat verfügbar."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Images are only available in mesh chats."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Las imágenes solo están disponibles en los chats de mesh."
-          }
-        },
-        "fil" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ang mga larawan ay available lamang sa mga mesh chat."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les images sont uniquement disponibles dans les discussions mesh."
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "תמונות זמינות רק בצ׳אט של mesh."
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "चित्र केवल मेश चैट में ही उपलब्ध हैं।"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gambar hanya tersedia di obrolan mesh."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le immagini sono disponibili solo nelle chat mesh."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "画像はメッシュチャットでのみ利用できます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이미지는 메쉬 채팅에서만 사용할 수 있습니다."
-          }
-        },
-        "ms" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Imej hanya tersedia dalam sembang mesh."
-          }
-        },
-        "ne" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "तस्बिरहरू केवल मेष च्याटमा मात्र उपलब्ध छन्।"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Afbeeldingen zijn alleen beschikbaar in mesh-chats."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Obrazy są dostępne tylko na czatach mesh."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "As imagens só estão disponíveis nos chats mesh."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "As imagens só estão disponíveis nos chats mesh."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Изображения доступны только в mesh-чатах."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bilder är bara tillgängliga i mesh-chattar."
-          }
-        },
-        "ta" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "படங்கள் மெஷ் உரையாடல்களில் மட்டுமே கிடைக்கும்."
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "รูปภาพใช้งานได้เฉพาะในแชต mesh เท่านั้น"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Görseller yalnızca mesh sohbetlerinde kullanılabilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Зображення доступні лише в mesh-чатах."
-          }
-        },
-        "ur" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تصاویر صرف میش چیٹس میں دستیاب ہیں۔"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hình ảnh chỉ khả dụng trong các cuộc trò chuyện mesh."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "图片仅可在 mesh 聊天中使用。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "圖片僅能在 mesh 聊天中使用。"
-          }
-        }
-      }
-    },
-    "Choose an image" : {
-      "comment" : "A label displayed above a button that allows the user to choose an image to send.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اختر صورة"
-          }
-        },
-        "bn" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "একটি ছবি নির্বাচন করুন"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bild auswählen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose an image"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elige una imagen"
-          }
-        },
-        "fil" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pumili ng larawan"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choisir une image"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "בחר תמונה"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "एक चित्र चुनें"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pilih gambar"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scegli un’immagine"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "画像を選択"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이미지를 선택하세요"
-          }
-        },
-        "ms" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pilih imej"
-          }
-        },
-        "ne" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "एउटा तस्वीर चयन गर्नुहोस्"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kies een afbeelding"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wybierz obraz"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escolher uma imagem"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escolha uma imagem"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Выберите изображение"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Välj en bild"
-          }
-        },
-        "ta" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ஒரு படத்தைத் தேர்ந்தெடுக்கவும்"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "เลือกภาพ"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bir görüntü seç"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Виберіть зображення"
-          }
-        },
-        "ur" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ایک تصویر منتخب کریں"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chọn một hình ảnh"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "选择图像"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "選擇圖像"
           }
         }
       }

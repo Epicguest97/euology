@@ -287,8 +287,8 @@ struct VerificationSheetView: View {
     @State private var showingScanner = false
     @Environment(\.colorScheme) var colorScheme
 
-    private var backgroundColor: Color { colorScheme == .dark ? Color.black : Color.white }
-    private var accentColor: Color { colorScheme == .dark ? Color.green : Color(red: 0, green: 0.5, blue: 0) }
+    private var backgroundColor: Color { Color.black }
+    private var accentColor: Color { Color.amberAccent }
     private var boxColor: Color { Color.gray.opacity(0.1) }
 
     private func myQRString() -> String {

@@ -15,15 +15,26 @@ import UIKit
 final class BLEService: NSObject {
     
     // MARK: - Constants
-    
-    #if DEBUG
-    static let serviceUUID = CBUUID(string: "F47B5E2D-4A9E-4C5A-9B3F-8E1D2C3A4B5A") // testnet
-    #else
-    static let serviceUUID = CBUUID(string: "F47B5E2D-4A9E-4C5A-9B3F-8E1D2C3A4B5C") // mainnet
-    #endif
+
+    enum MeshNamespace: String {
+        case eulogyMainnet = "eulogy-mainnet"
+        case bitchatMainnet = "bitchat-mainnet"
+    }
+
+    static let eulogyMainnetServiceUUID = CBUUID(string: "E0719D5F-6B84-4A62-BF93-2C4D5719F40A")
+    static let bitchatMainnetServiceUUID = CBUUID(string: "F47B5E2D-4A9E-4C5A-9B3F-8E1D2C3A4B5C")
+    private static var activeServiceUUID = eulogyMainnetServiceUUID
+    static var serviceUUID: CBUUID {
+        get { activeServiceUUID }
+        set { activeServiceUUID = newValue }
+    }
     static let characteristicUUID = CBUUID(string: "A1B2C3D4-E5F6-4A5B-8C9D-0E1F2A3B4C5D")
-    private static let centralRestorationID = "chat.bitchat.ble.central"
-    private static let peripheralRestorationID = "chat.bitchat.ble.peripheral"
+    private static let centralRestorationID = "com.mehul.eulogy.ble.central"
+    private static let peripheralRestorationID = "com.mehul.eulogy.ble.peripheral"
+
+    private static func namespace(for uuid: CBUUID) -> MeshNamespace {
+        uuid.uuidString.caseInsensitiveCompare(bitchatMainnetServiceUUID.uuidString) == .orderedSame ? .bitchatMainnet : .eulogyMainnet
+    }
     
     // Default per-fragment chunk size when link limits are unknown
     private let defaultFragmentSize = TransportConfig.bleDefaultFragmentSize
@@ -103,6 +114,7 @@ final class BLEService: NSObject {
     private var centralManager: CBCentralManager?
     private var peripheralManager: CBPeripheralManager?
     private var characteristic: CBMutableCharacteristic?
+    private var servicesRunning = false
     
     // MARK: - Identity
     
@@ -111,6 +123,7 @@ final class BLEService: NSObject {
     private let keychain: KeychainManagerProtocol
     private let idBridge: NostrIdentityBridge
     private var myPeerIDData: Data = Data()
+    private(set) var meshNamespace: MeshNamespace = BLEService.namespace(for: BLEService.serviceUUID)
 
     // MARK: - Advertising Privacy
     // No Local Name by default for maximum privacy. No rotating alias.
@@ -255,6 +268,7 @@ final class BLEService: NSObject {
         
         configureNoiseServiceCallbacks(for: noiseService)
         refreshPeerIdentity()
+    meshNamespace = BLEService.namespace(for: BLEService.serviceUUID)
         
         // Set queue key for identification
         messageQueue.setSpecific(key: messageQueueKey, value: ())
@@ -477,6 +491,7 @@ final class BLEService: NSObject {
     // MARK: Lifecycle
     
     func startServices() {
+        servicesRunning = true
         // Start BLE services if not already running
         if centralManager?.state == .poweredOn {
             centralManager?.scanForPeripherals(
@@ -493,6 +508,7 @@ final class BLEService: NSObject {
     }
     
     func stopServices() {
+        servicesRunning = false
         // Send leave message synchronously to ensure delivery
         let leavePacket = BitchatPacket(
             type: MessageType.leave.rawValue,
@@ -569,6 +585,53 @@ final class BLEService: NSObject {
         peerToPeripheralUUID.removeAll()
         subscribedCentrals.removeAll()
         centralToPeerID.removeAll()
+    }
+
+    var bleServiceUUID: CBUUID? {
+        BLEService.serviceUUID
+    }
+
+    func setBLEServiceUUID(_ uuid: CBUUID) {
+        let sameNamespace = BLEService.serviceUUID.uuidString.caseInsensitiveCompare(uuid.uuidString) == .orderedSame
+        guard !sameNamespace else { return }
+
+        bleQueue.async { [weak self] in
+            guard let self else { return }
+
+            let previousNamespace = self.meshNamespace
+            BLEService.serviceUUID = uuid
+            self.meshNamespace = BLEService.namespace(for: uuid)
+            SecureLogger.info(
+                "🔀 Switching BLE namespace \(previousNamespace.rawValue) → \(self.meshNamespace.rawValue) (\(uuid.uuidString))",
+                category: .session
+            )
+
+            guard self.servicesRunning else {
+                self.requestPeerDataPublish()
+                return
+            }
+
+            self.emergencyDisconnectAll()
+
+            self.pendingWriteBuffers.removeAll()
+            self.recentConnectTimeouts.removeAll()
+            self.scheduledRelays.values.forEach { $0.cancel() }
+            self.scheduledRelays.removeAll()
+            self.recentPacketTimestamps.removeAll()
+            self.recentDisconnectNotifies.removeAll()
+
+            if let manager = self.peripheralManager, manager.state == .poweredOn {
+                manager.removeAllServices()
+                self.installPeripheralService(on: manager)
+            }
+
+            self.messageQueue.async { [weak self] in
+                self?.restartGossipManager()
+            }
+
+            self.startServices()
+            self.requestPeerDataPublish()
+        }
     }
     
     // MARK: Connectivity and peers
@@ -2096,22 +2159,7 @@ extension BLEService: CBPeripheralManagerDelegate {
         if peripheral.state == .poweredOn {
             // Remove all services first to ensure clean state
             peripheral.removeAllServices()
-            
-            // Create characteristic
-            characteristic = CBMutableCharacteristic(
-                type: BLEService.characteristicUUID,
-                properties: [.notify, .write, .writeWithoutResponse, .read],
-                value: nil,
-                permissions: [.readable, .writeable]
-            )
-            
-            // Create service
-            let service = CBMutableService(type: BLEService.serviceUUID, primary: true)
-            service.characteristics = [characteristic!]
-            
-            // Add service (advertising will start in didAdd delegate)
-            SecureLogger.debug("🔧 Adding BLE service...", category: .session)
-            peripheral.add(service)
+            installPeripheralService(on: peripheral)
         }
     }
     
@@ -2348,6 +2396,21 @@ extension BLEService {
         ]
         // No Local Name for privacy
         return data
+    }
+
+    private func installPeripheralService(on manager: CBPeripheralManager) {
+        characteristic = CBMutableCharacteristic(
+            type: BLEService.characteristicUUID,
+            properties: [.notify, .write, .writeWithoutResponse, .read],
+            value: nil,
+            permissions: [.readable, .writeable]
+        )
+
+        let service = CBMutableService(type: BLEService.serviceUUID, primary: true)
+        service.characteristics = [characteristic!]
+
+        SecureLogger.debug("🔧 Installing BLE service with UUID \(BLEService.serviceUUID.uuidString)", category: .session)
+        manager.add(service)
     }
     
     // No alias rotation or advertising restarts required.

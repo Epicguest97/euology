@@ -12,7 +12,7 @@ import UserNotifications
 
 @main
 struct BitchatApp: App {
-    static let bundleID = Bundle.main.bundleIdentifier ?? "chat.bitchat"
+    static let bundleID = Bundle.main.bundleIdentifier ?? "com.mehul.eulogy"
     static let groupID = "group.\(bundleID)"
     
     @StateObject private var chatViewModel: ChatViewModel
@@ -48,6 +48,7 @@ struct BitchatApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(chatViewModel)
+                .preferredColorScheme(.dark)
                 .onAppear {
                     NotificationDelegate.shared.chatViewModel = chatViewModel
                     // Inject live Noise service into VerificationService to avoid creating new BLE instances

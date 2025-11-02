@@ -55,7 +55,6 @@ struct ContentView: View {
     @State private var scrollThrottleTimer: Timer?
     @State private var autocompleteDebounceTimer: Timer?
     @State private var showLocationChannelsSheet = false
-    @State private var showVerifySheet = false
     @State private var expandedMessageIDs: Set<String> = []
     @State private var showLocationNotes = false
     @State private var notesGeohash: String? = nil
@@ -85,15 +84,15 @@ struct ContentView: View {
     // MARK: - Computed Properties
     
     private var backgroundColor: Color {
-        colorScheme == .dark ? Color.black : Color.white
+        Color.black
     }
 
     private var textColor: Color {
-        colorScheme == .dark ? Color.green : Color(red: 0, green: 0.5, blue: 0)
+        Color.amberAccent
     }
 
     private var secondaryTextColor: Color {
-        colorScheme == .dark ? Color.green.opacity(0.8) : Color(red: 0, green: 0.5, blue: 0).opacity(0.8)
+        Color.amberAccentMuted
     }
 
     private var headerLineLimit: Int? {
@@ -334,6 +333,93 @@ struct ContentView: View {
             Button("common.ok", role: .cancel) {}
         } message: {
             Text(viewModel.bluetoothAlertMessage)
+        }
+        .sheet(isPresented: $showLocationChannelsSheet) {
+            LocationChannelsSheet(isPresented: $showLocationChannelsSheet)
+                .onAppear { viewModel.isLocationChannelsSheetPresented = true }
+                .onDisappear { viewModel.isLocationChannelsSheetPresented = false }
+        }
+        .sheet(isPresented: $showLocationNotes, onDismiss: {
+            notesGeohash = nil
+        }) {
+            Group {
+                if let gh = notesGeohash ?? LocationChannelManager.shared.availableChannels.first(where: { $0.level == .building })?.geohash {
+                    LocationNotesView(geohash: gh)
+                        .environmentObject(viewModel)
+                } else {
+                    VStack(spacing: 12) {
+                        HStack {
+                            Text("content.notes.title")
+                                .font(.bitchatSystem(size: 16, weight: .bold, design: .monospaced))
+                            Spacer()
+                            Button(action: { showLocationNotes = false }) {
+                                Image(systemName: "xmark")
+                                    .font(.bitchatSystem(size: 13, weight: .semibold, design: .monospaced))
+                                    .foregroundColor(textColor)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                        .frame(height: headerHeight)
+                        .padding(.horizontal, 12)
+                        .background(backgroundColor.opacity(0.95))
+                        Text("content.notes.location_unavailable")
+                            .font(.bitchatSystem(size: 14, design: .monospaced))
+                            .foregroundColor(secondaryTextColor)
+                        Button("content.location.enable") {
+                            LocationChannelManager.shared.enableLocationChannels()
+                            LocationChannelManager.shared.refreshChannels()
+                        }
+                        .buttonStyle(.bordered)
+                        Spacer()
+                    }
+                    .background(backgroundColor)
+                    .foregroundColor(textColor)
+                }
+            }
+            .onAppear {
+                LocationChannelManager.shared.enableLocationChannels()
+                LocationChannelManager.shared.beginLiveRefresh()
+            }
+            .onDisappear {
+                LocationChannelManager.shared.endLiveRefresh()
+            }
+            .onChange(of: locationManager.availableChannels) { channels in
+                if let current = channels.first(where: { $0.level == .building })?.geohash,
+                    notesGeohash != current {
+                    notesGeohash = current
+                    #if os(iOS)
+                    let generator = UIImpactFeedbackGenerator(style: .light)
+                    generator.prepare()
+                    generator.impactOccurred()
+                    #endif
+                }
+            }
+        }
+        .onAppear {
+            if case .mesh = locationManager.selectedChannel,
+               locationManager.permissionState == .authorized,
+               LocationChannelManager.shared.availableChannels.isEmpty {
+                LocationChannelManager.shared.refreshChannels()
+            }
+        }
+        .onChange(of: locationManager.selectedChannel) { _ in
+            if case .mesh = locationManager.selectedChannel,
+               locationManager.permissionState == .authorized,
+               LocationChannelManager.shared.availableChannels.isEmpty {
+                LocationChannelManager.shared.refreshChannels()
+            }
+        }
+        .onChange(of: locationManager.permissionState) { _ in
+            if case .mesh = locationManager.selectedChannel,
+               locationManager.permissionState == .authorized,
+               LocationChannelManager.shared.availableChannels.isEmpty {
+                LocationChannelManager.shared.refreshChannels()
+            }
+        }
+        .alert("content.alert.screenshot.title", isPresented: $viewModel.showScreenshotPrivacyWarning) {
+            Button("common.ok", role: .cancel) {}
+        } message: {
+            Text("content.alert.screenshot.message")
         }
         .onDisappear {
             // Clean up timers
@@ -705,7 +791,7 @@ struct ContentView: View {
                 .padding(.horizontal, 6)
                 .background(
                     RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .fill(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white.opacity(0.7))
+                        .fill(Color.black.opacity(0.35))
                 )
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .onChange(of: messageText) { newValue in
@@ -981,21 +1067,10 @@ struct ContentView: View {
                         .font(.bitchatSystem(size: 18, design: .monospaced))
                         .foregroundColor(textColor)
                     Spacer()
-                    if case .mesh = locationManager.selectedChannel {
-                        Button(action: { showVerifySheet = true }) {
-                            Image(systemName: "qrcode")
-                                .font(.bitchatSystem(size: 14))
-                        }
-                        .buttonStyle(.plain)
-                        .help(
-                            String(localized: "content.help.verification", comment: "Help text for verification button")
-                        )
-                    }
                     Button(action: {
                         withAnimation(.easeInOut(duration: TransportConfig.uiAnimationMediumSeconds)) {
                             dismiss()
                             showSidebar = false
-                            showVerifySheet = false
                             viewModel.endPrivateChat()
                         }
                     }) {
@@ -1017,7 +1092,7 @@ struct ContentView: View {
                         case .mesh:
                             return Color.blue
                         case .location:
-                            return Color.green
+                            return Color.amberAccent
                         }
                     }()
                     HStack(spacing: 6) {
@@ -1314,8 +1389,7 @@ struct ContentView: View {
         switch locationManager.selectedChannel {
         case .location:
             let n = viewModel.geohashPeople.count
-            let standardGreen = (colorScheme == .dark) ? Color.green : Color(red: 0, green: 0.5, blue: 0)
-            return (n, n > 0 ? standardGreen : Color.secondary)
+            return (n, n > 0 ? Color.amberAccent : Color.secondary)
         case .mesh:
             let counts = viewModel.allPeers.reduce(into: (others: 0, mesh: 0)) { counts, peer in
                 guard peer.peerID != viewModel.meshService.myPeerID else { return }
@@ -1330,19 +1404,18 @@ struct ContentView: View {
 
     
     private var mainHeaderView: some View {
-        HStack(spacing: 0) {
-            Text(verbatim: "bitchat/")
-                .font(.bitchatSystem(size: 18, weight: .medium, design: .monospaced))
-                .foregroundColor(textColor)
-                .onTapGesture(count: 3) {
-                    // PANIC: Triple-tap to clear all data
-                    viewModel.panicClearAllData()
-                }
-                .onTapGesture(count: 1) {
-                    // Single tap for app info
-                    showAppInfo = true
-                }
-            
+        // Precompute header count and color
+        let cc = channelPeopleCountAndColor()
+        let headerCountColor: Color = cc.1
+        let headerOtherPeersCount: Int = {
+            if case .location = locationManager.selectedChannel {
+                return viewModel.visibleGeohashPeople().count
+            }
+            return cc.0
+        }()
+        
+        return HStack(spacing: 0) {
+            // Left side - Username
             HStack(spacing: 0) {
                 Text(verbatim: "@")
                     .font(.bitchatSystem(size: 14, design: .monospaced))
@@ -1351,7 +1424,7 @@ struct ContentView: View {
                 TextField("content.input.nickname_placeholder", text: $viewModel.nickname)
                     .textFieldStyle(.plain)
                     .font(.bitchatSystem(size: 14, design: .monospaced))
-                    .frame(maxWidth: 80)
+                    .frame(maxWidth: 90)
                     .foregroundColor(textColor)
                     .focused($isNicknameFieldFocused)
                     .autocorrectionDisabled(true)
@@ -1360,7 +1433,6 @@ struct ContentView: View {
                     #endif
                     .onChange(of: isNicknameFieldFocused) { isFocused in
                         if !isFocused {
-                            // Only validate when losing focus
                             viewModel.validateAndSaveNickname()
                         }
                     }
@@ -1371,21 +1443,9 @@ struct ContentView: View {
             
             Spacer()
             
-            // Channel badge + dynamic spacing + people counter
-            // Precompute header count and color outside the ViewBuilder expressions
-            let cc = channelPeopleCountAndColor()
-            let headerCountColor: Color = cc.1
-            let headerOtherPeersCount: Int = {
-                if case .location = locationManager.selectedChannel {
-                    return viewModel.visibleGeohashPeople().count
-                }
-                return cc.0
-            }()
-
-            HStack(spacing: 10) {
-                // Unread icon immediately to the left of the channel badge (independent from channel button)
-                
-                // Unread indicator (now shown on iOS and macOS)
+            // Right side - Channel info and icons
+            HStack(spacing: 8) {
+                // Unread indicator
                 if viewModel.hasAnyUnreadMessages {
                     Button(action: { viewModel.openMostRelevantPrivateChat() }) {
                         Image(systemName: "envelope.fill")
@@ -1397,23 +1457,18 @@ struct ContentView: View {
                         String(localized: "content.accessibility.open_unread_private_chat", comment: "Accessibility label for the unread private chat button")
                     )
                 }
-                // Notes icon (mesh only and when location is authorized), to the left of #mesh
+                
+                // Notes icon (mesh only and when location is authorized)
                 if case .mesh = locationManager.selectedChannel, locationManager.permissionState == .authorized {
                     Button(action: {
-                        // Kick a one-shot refresh and show the sheet immediately.
                         LocationChannelManager.shared.enableLocationChannels()
                         LocationChannelManager.shared.refreshChannels()
-                        // If we already have a block geohash, pass it; otherwise wait in the sheet.
                         notesGeohash = LocationChannelManager.shared.availableChannels.first(where: { $0.level == .building })?.geohash
                         showLocationNotes = true
                     }) {
-                        HStack(alignment: .center, spacing: 4) {
-                            Image(systemName: "note.text")
-                                .font(.bitchatSystem(size: 12))
-                                .foregroundColor(Color.orange.opacity(0.8))
-                                .padding(.top, 1)
-                        }
-                        .fixedSize(horizontal: true, vertical: false)
+                        Image(systemName: "note.text")
+                            .font(.bitchatSystem(size: 12))
+                            .foregroundColor(Color.orange.opacity(0.8))
                     }
                     .buttonStyle(.plain)
                     .accessibilityLabel(
@@ -1421,7 +1476,7 @@ struct ContentView: View {
                     )
                 }
 
-                // Bookmark toggle (geochats): to the left of #geohash
+                // Bookmark toggle (geochats)
                 if case .location(let ch) = locationManager.selectedChannel {
                     Button(action: { GeohashBookmarksStore.shared.toggle(ch.geohash) }) {
                         Image(systemName: GeohashBookmarksStore.shared.isBookmarked(ch.geohash) ? "bookmark.fill" : "bookmark")
@@ -1437,7 +1492,7 @@ struct ContentView: View {
                     )
                 }
 
-                // Location channels button '#'
+                // Channel badge
                 Button(action: { showLocationChannelsSheet = true }) {
                     let badgeText: String = {
                         switch locationManager.selectedChannel {
@@ -1448,155 +1503,52 @@ struct ContentView: View {
                     let badgeColor: Color = {
                         switch locationManager.selectedChannel {
                         case .mesh:
-                            return Color(hue: 0.60, saturation: 0.85, brightness: 0.82)
+                            return Color(red: 0.71, green: 0.62, blue: 0.85)
                         case .location:
-                            return (colorScheme == .dark) ? Color.green : Color(red: 0, green: 0.5, blue: 0)
+                            return Color.amberAccent
                         }
                     }()
                     Text(badgeText)
-                        .font(.bitchatSystem(size: 14, design: .monospaced))
+                        .font(.bitchatSystem(size: 13, design: .monospaced))
                         .foregroundColor(badgeColor)
                         .lineLimit(headerLineLimit)
-                        .fixedSize(horizontal: true, vertical: false)
-                        .layoutPriority(2)
-                        .accessibilityLabel(
-                            String(localized: "content.accessibility.location_channels", comment: "Accessibility label for the location channels button")
-                        )
                 }
                 .buttonStyle(.plain)
-                .padding(.leading, 4)
-                .padding(.trailing, 2)
-
-                HStack(spacing: 4) {
-                    // People icon with count
+                
+                // People count
+                HStack(spacing: 3) {
                     Image(systemName: "person.2.fill")
                         .font(.system(size: headerPeerIconSize, weight: .regular))
-                        .accessibilityLabel(
-                            String(
-                                format: String(localized: "content.accessibility.people_count", comment: "Accessibility label announcing number of people in header"),
-                                locale: .current,
-                                headerOtherPeersCount
-                            )
-                        )
                     Text("\(headerOtherPeersCount)")
                         .font(.system(size: headerPeerCountFontSize, weight: .regular, design: .monospaced))
-                        .accessibilityHidden(true)
                 }
                 .foregroundColor(headerCountColor)
-                .padding(.leading, 2)
-                .lineLimit(headerLineLimit)
-                .fixedSize(horizontal: true, vertical: false)
-
-                // QR moved to the PEOPLE header in the sidebar when on mesh channel
             }
-            .layoutPriority(3)
+            .frame(maxWidth: .infinity, alignment: .trailing)
             .onTapGesture {
                 withAnimation(.easeInOut(duration: TransportConfig.uiAnimationMediumSeconds)) {
                     showSidebar.toggle()
                 }
             }
-            .sheet(isPresented: $showVerifySheet) {
-                VerificationSheetView(isPresented: $showVerifySheet)
-                    .environmentObject(viewModel)
-            }
         }
-        .frame(height: headerHeight)
+        .frame(maxWidth: .infinity, minHeight: headerHeight, maxHeight: headerHeight)
         .padding(.horizontal, 12)
-        .sheet(isPresented: $showLocationChannelsSheet) {
-            LocationChannelsSheet(isPresented: $showLocationChannelsSheet)
-                .onAppear { viewModel.isLocationChannelsSheetPresented = true }
-                .onDisappear { viewModel.isLocationChannelsSheetPresented = false }
-        }
-        .sheet(isPresented: $showLocationNotes, onDismiss: {
-            notesGeohash = nil
-        }) {
-            Group {
-                if let gh = notesGeohash ?? LocationChannelManager.shared.availableChannels.first(where: { $0.level == .building })?.geohash {
-                    LocationNotesView(geohash: gh)
-                        .environmentObject(viewModel)
-                } else {
-                    VStack(spacing: 12) {
-                        HStack {
-                            Text("content.notes.title")
-                                .font(.bitchatSystem(size: 16, weight: .bold, design: .monospaced))
-                            Spacer()
-                            Button(action: { showLocationNotes = false }) {
-                                Image(systemName: "xmark")
-                                    .font(.bitchatSystem(size: 13, weight: .semibold, design: .monospaced))
-                                    .foregroundColor(textColor)
-                                    .frame(width: 32, height: 32)
-                            }
-                            .buttonStyle(.plain)
-                            .accessibilityLabel(String(localized: "common.close", comment: "Accessibility label for close buttons"))
-                        }
-                        .frame(height: headerHeight)
-                        .padding(.horizontal, 12)
-                        .background(backgroundColor.opacity(0.95))
-                        Text("content.notes.location_unavailable")
-                            .font(.bitchatSystem(size: 14, design: .monospaced))
-                            .foregroundColor(secondaryTextColor)
-                        Button("content.location.enable") {
-                            LocationChannelManager.shared.enableLocationChannels()
-                            LocationChannelManager.shared.refreshChannels()
-                        }
-                        .buttonStyle(.bordered)
-                        Spacer()
-                    }
-                    .background(backgroundColor)
-                    .foregroundColor(textColor)
-                    // per-sheet global onChange added below
+        .overlay(alignment: .center) {
+            Text(verbatim: "eulogy")
+                .font(.bitchatSystem(size: 20, weight: .semibold, design: .monospaced))
+                .foregroundColor(textColor)
+                .contentShape(Rectangle())
+                .onTapGesture(count: 3) {
+                    // PANIC: Triple-tap to clear all data
+                    viewModel.panicClearAllData()
                 }
-            }
-            .onAppear {
-                // Ensure we are authorized and start live location updates (distance-filtered)
-                LocationChannelManager.shared.enableLocationChannels()
-                LocationChannelManager.shared.beginLiveRefresh()
-            }
-            .onDisappear {
-                LocationChannelManager.shared.endLiveRefresh()
-            }
-            .onChange(of: locationManager.availableChannels) { channels in
-                if let current = channels.first(where: { $0.level == .building })?.geohash,
-                    notesGeohash != current {
-                    notesGeohash = current
-                    #if os(iOS)
-                    // Light taptic when geohash changes while the sheet is open
-                    let generator = UIImpactFeedbackGenerator(style: .light)
-                    generator.prepare()
-                    generator.impactOccurred()
-                    #endif
+                .onTapGesture(count: 1) {
+                    // Single tap for app info
+                    showAppInfo = true
                 }
-            }
+                .allowsHitTesting(false)
         }
-        .onAppear {
-            if case .mesh = locationManager.selectedChannel,
-               locationManager.permissionState == .authorized,
-               LocationChannelManager.shared.availableChannels.isEmpty {
-                LocationChannelManager.shared.refreshChannels()
-            }
-        }
-        .onChange(of: locationManager.selectedChannel) { _ in
-            if case .mesh = locationManager.selectedChannel,
-               locationManager.permissionState == .authorized,
-               LocationChannelManager.shared.availableChannels.isEmpty {
-                LocationChannelManager.shared.refreshChannels()
-            }
-        }
-        .onChange(of: locationManager.permissionState) { _ in
-            if case .mesh = locationManager.selectedChannel,
-               locationManager.permissionState == .authorized,
-               LocationChannelManager.shared.availableChannels.isEmpty {
-                LocationChannelManager.shared.refreshChannels()
-            }
-        }
-        .alert("content.alert.screenshot.title", isPresented: $viewModel.showScreenshotPrivacyWarning) {
-            Button("common.ok", role: .cancel) {}
-        } message: {
-            Text("content.alert.screenshot.message")
-        }
-        .background(backgroundColor.opacity(0.95))
     }
-
 }
 
 // MARK: - Helper Views
@@ -1616,7 +1568,33 @@ private enum MessageMedia {
     }
 }
 
+// MARK: - Helper Methods
+
 private extension ContentView {
+
+    var networkNamespaceToggle: some View {
+        Toggle(isOn: Binding(
+            get: { viewModel.connectToBitchatMainnet },
+            set: { viewModel.setConnectToBitchatMainnet($0) }
+        )) {
+            VStack(alignment: .leading, spacing: 1) {
+                Text("bitchat mainnet")
+                    .font(.bitchatSystem(size: 11, weight: .semibold, design: .monospaced))
+                    .textCase(.uppercase)
+                Text(viewModel.connectToBitchatMainnet ? "on • connected" : "off • connect to bitchat")
+                    .font(.bitchatSystem(size: 10, design: .monospaced))
+                    .foregroundColor(viewModel.connectToBitchatMainnet ? textColor : secondaryTextColor)
+            }
+        }
+        .toggleStyle(SwitchToggleStyle(tint: Color(red: 0.71, green: 0.62, blue: 0.85)))
+        .tint(Color(red: 0.71, green: 0.62, blue: 0.85))
+        .foregroundColor(textColor)
+    .frame(maxWidth: 180, alignment: .leading)
+        .fixedSize(horizontal: false, vertical: true)
+        .padding(.trailing, 6)
+        .accessibilityHint("Toggle legacy BitChat mesh compatibility")
+    }
+
     func mediaAttachment(for message: BitchatMessage) -> MessageMedia? {
         guard let baseDirectory = applicationFilesDirectory() else { return nil }
 
