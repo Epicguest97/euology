@@ -494,8 +494,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = "$(MARKETING_VERSION)";
-				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).ShareExtension";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.mehul.eulogy.ShareExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mehul.eulogy.ShareExtension;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -529,8 +528,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = "$(MARKETING_VERSION)";
-				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.mehul.eulogy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mehul.eulogy;
 				PRODUCT_NAME = bitchat;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
@@ -592,8 +590,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = "$(MARKETING_VERSION)";
-				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.mehul.eulogy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mehul.eulogy;
 				PRODUCT_NAME = bitchat;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
@@ -817,8 +814,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = "$(MARKETING_VERSION)";
-				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).ShareExtension";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.mehul.eulogy.ShareExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mehul.eulogy.ShareExtension;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

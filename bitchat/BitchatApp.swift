@@ -39,7 +39,6 @@ struct BitchatApp: App {
             )
         )
         
-        UNUserNotificationCenter.current().delegate = NotificationDelegate.shared
         // Warm up georelay directory and refresh if stale (once/day)
         GeoRelayDirectory.shared.prefetchIfNeeded()
     }
@@ -50,6 +49,8 @@ struct BitchatApp: App {
                 .environmentObject(chatViewModel)
                 .preferredColorScheme(.dark)
                 .onAppear {
+                    // Set up notification delegate after the bundle is fully initialized
+                    UNUserNotificationCenter.current().delegate = NotificationDelegate.shared
                     NotificationDelegate.shared.chatViewModel = chatViewModel
                     // Inject live Noise service into VerificationService to avoid creating new BLE instances
                     VerificationService.shared.configure(with: chatViewModel.meshService.getNoiseService())

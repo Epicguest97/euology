@@ -157,6 +157,28 @@ struct ContentView: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height)
+                .gesture(
+                    DragGesture()
+                        .onEnded { value in
+                            let horizontalAmount = value.translation.width
+                            let verticalAmount = abs(value.translation.height)
+                            
+                            // Swipe left (from right edge) to open sidebar
+                            if horizontalAmount < -80, verticalAmount < 60 {
+                                withAnimation(.easeInOut(duration: TransportConfig.uiAnimationMediumSeconds)) {
+                                    showSidebar = true
+                                    viewModel.endPrivateChat()
+                                }
+                            }
+                            // Swipe right to close sidebar
+                            else if horizontalAmount > 80, verticalAmount < 60, showSidebar {
+                                withAnimation(.easeInOut(duration: TransportConfig.uiAnimationMediumSeconds)) {
+                                    showSidebar = false
+                                    viewModel.endPrivateChat()
+                                }
+                            }
+                        }
+                )
             }
 
             Divider()
@@ -1476,22 +1498,6 @@ struct ContentView: View {
                     )
                 }
 
-                // Bookmark toggle (geochats)
-                if case .location(let ch) = locationManager.selectedChannel {
-                    Button(action: { GeohashBookmarksStore.shared.toggle(ch.geohash) }) {
-                        Image(systemName: GeohashBookmarksStore.shared.isBookmarked(ch.geohash) ? "bookmark.fill" : "bookmark")
-                            .font(.bitchatSystem(size: 12))
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(
-                        String(
-                            format: String(localized: "content.accessibility.toggle_bookmark", comment: "Accessibility label for toggling a geohash bookmark"),
-                            locale: .current,
-                            ch.geohash
-                        )
-                    )
-                }
-
                 // Channel badge
                 Button(action: { showLocationChannelsSheet = true }) {
                     let badgeText: String = {
@@ -1514,22 +1520,8 @@ struct ContentView: View {
                         .lineLimit(headerLineLimit)
                 }
                 .buttonStyle(.plain)
-                
-                // People count
-                HStack(spacing: 3) {
-                    Image(systemName: "person.2.fill")
-                        .font(.system(size: headerPeerIconSize, weight: .regular))
-                    Text("\(headerOtherPeersCount)")
-                        .font(.system(size: headerPeerCountFontSize, weight: .regular, design: .monospaced))
-                }
-                .foregroundColor(headerCountColor)
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
-            .onTapGesture {
-                withAnimation(.easeInOut(duration: TransportConfig.uiAnimationMediumSeconds)) {
-                    showSidebar.toggle()
-                }
-            }
         }
         .frame(maxWidth: .infinity, minHeight: headerHeight, maxHeight: headerHeight)
         .padding(.horizontal, 12)
@@ -1546,7 +1538,6 @@ struct ContentView: View {
                     // Single tap for app info
                     showAppInfo = true
                 }
-                .allowsHitTesting(false)
         }
     }
 }
